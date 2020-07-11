@@ -13,10 +13,14 @@ output:
 #packages here
 require(tidyverse)
 require(DiagrammeR)
+require(Biostrings)
+
 ```
 
 # Summary
-In this R notebook we map the O. mykiss GTseq panel used by the SFGL to the O. mykiss genome and examine LD patterns among the markers
+In this R notebook we map the O. mykiss GTseq panel used by the SFGL to the O. mykiss genome and examine LD patterns among the markers.
+
+Skip to _Results Summary_ for a visual abstract of results
 
 # Readme
 
@@ -25,8 +29,15 @@ This is an rstudio project. If you'd like to pre-rendered figures, read a summar
 
 To conduct the analyses on your computer, edit or run code: clone this repository into a directory on you r local machine and open the .Rproj file in Rstudio. All data and analyses are available in the github repository at https://github.com/david-dayan/Omy_GTseq_markers.git
 
+# Metadata
+__Samples__  
+Samples are 42 Rogue River adult winter run steelhead collected 2019 at Cole Rivers Hatchery
 
-# Overview
+__Genome__  
+We use the ENSEMBL release 100 genome for mapping (GCA_002163495.1), however, we also map amplicons to a draft release of the new assembly (GCA_013265735.1).
+
+# Analysis
+## Overview
 
 ```{r}
 
@@ -45,7 +56,7 @@ grViz("digraph flowchart {
       tab3 -> tab5
       }
       [1]: 'Get Amplicon Sequences'
-      [2]: 'Probe+Primer'
+      [2]: 'Probe+Primer Sequence'
       [3]: 'Mapping'
       [4]: 'Compare to Previous Mapping Results'
       [5]: 'LD'
@@ -53,7 +64,9 @@ grViz("digraph flowchart {
       ")
 ```
 
-# Generate Amplicon Sequences to Map
+The basic approach is to gather amplicon sequences for using similar filtering criteria to GTseq pipeline, then map these sequences.
+
+Several approaches were used, final results are presented from **Approach 3**
 
 ## Chinook approach
 
@@ -680,12 +693,294 @@ done
 
 ```
 
-However, Sandra described this approach as time-consuming (mostly due to sorting off target reads that contained the primer), so it may be good to try an alternative approach before doing this.
+However, Sandra described this approach as time-consuming (mostly due to sorting off target reads that contained the primer, but not the probe), so it may be good to try an alternative approach before doing this.
 
 ## Approach 2
 
-Examine the GTseq scripts to see if there is a way to pull out the on target reads identified by the pipeline and then just keep a set of these for each ind
+In this approach we modify the GTseq pipeline scripts to pull out "on target reads" identified by the pipeline and then just keep a set of these for each individual.
 
-# Probe + Primer
+The GTseq_SeqTest.pl script from the GTseq pipeline is able to read in a list of all unique reads (from GTseq_HashSeqs.pl), and count the occurences of the forward and probe sequences. Below, we modify the script so that it also outputs the sequences that match. After a file of matching sequences is created, we create a consensus sequence for each marker, and then use this for mapping. 
 
-The chinook results suggests that there are significant enough number of off target reads that coatin the forward primer that this is not enoguh information to map on. However, adding the probe sequence and the reverse primer may be enough to permit accurate mapping and has the advantage of not having to deal with raw reads. The challenge here will be (a) correctly orienting the primer, probe and reverse primer into a concatenated sequence to map, and (b) optimizing mapping to deal with a gapped alignment (i.e. will be missing some sequence that is not included in the primers or the probe, but do not know exactly how much) 
+```{bash, eval = FALSE}
+#!/usr/bin/perl
+#GTseq_SeqTest.pl by Nate Campbell, modified by David Dayan to collect matching reads from the input hash file
+## comments with double hashes (##) throughout are Dayan's interpretation of the script and may be wrong
+#Test .hash file to see how many times loci fwd primers and probe seqs occur.
+
+use strict; use warnings;
+
+die "usage: provide <tab delimited txt file of locus, fwd, probe1, probe2 seqs> and <*.hash>\n" unless @ARGV == 2;
+
+##initialize variables/arrays
+my @assays = ();
+my @fwd_seq = ();
+my @probe1 = ();
+my @probe2 = ();
+my @probe1RC = ();
+my @probe2RC = ();
+
+my @fwd_count = ();
+my @probe_count = ();
+my @both_count = ();
+
+my @sequences = (); ## initialize new array for the reads
+
+#read in assay and allele information and push to arrays...
+
+open(SEQ, "<$ARGV[0]") or die "error reading $ARGV[0]\n";
+## open the key file and write the assay (sequence name), fwd primer, and probe sequences to arrays, also write reverse complements of probe sequences
+while (<SEQ>) {
+	chomp;
+	my @info = split(/\t/, $_);
+	push @assays, $info[0];
+	push @fwd_seq, $info[1];
+	push @probe1, $info[2];
+	push @probe2, $info[3];
+	my $p1RC = reverse $info[2];
+	my $p2RC = reverse $info[3];
+	$p1RC =~ tr/ACGT/TGCA/;
+	$p1RC =~ tr/\]\[/\[\]/;
+	$p2RC =~ tr/ACGT/TGCA/;
+	$p2RC =~ tr/\]\[/\[\]/;
+	push @probe1RC, $p1RC;
+	push @probe2RC, $p2RC;
+		}
+close SEQ;
+
+my $Targets = @assays; ##creates a variable for each marker
+
+for (my $i = 0; $i < $Targets; $i++){
+$fwd_count[$i] = 0;
+$probe_count[$i] = 0;
+$both_count[$i] = 0;
+$sequences[$i] = 0 ; ## add variable to keep sequences within the $Targets variable
+
+open(HASH, "<$ARGV[1]") or die "error reading $ARGV[1]\n";
+
+	while (<HASH>) {
+		my $hash = $_;
+		my $R1_seq = <HASH>;
+		chomp ($hash);
+		my @info = split(/;/, $hash);
+		my $count = $info[2];
+
+			if ($R1_seq =~ m/$fwd_seq[$i]/){
+			$count = $fwd_count[$i] + $count;
+			$fwd_count[$i] = $count;
+			}
+			$count = $info[2];
+			if ($R1_seq =~ m/$probe1[$i]|$probe2[$i]|$probe1RC[$i]|$probe2RC[$i]/){
+			$count = $probe_count[$i] + $count;
+			$probe_count[$i] = $count;
+			}
+			$count = $info[2];
+			if (($R1_seq =~ m/$fwd_seq[$i]/) && ($R1_seq =~ m/$probe1[$i]|$probe2[$i]|$probe1RC[$i]|$probe2RC[$i]/)) {
+			$count = $both_count[$i] + $count;
+			$both_count[$i] = $count;
+			$sequences[$i] = $R1_seq; ##add sequence 
+			}
+		}
+	}
+close HASH;
+
+# print "$Allele1_Count[0]\n"; #testing...
+
+for (my $j = 0; $j < $Targets; $j++){
+	print "$assays[$j],$fwd_count[$j],$probe_count[$j],$both_count[$j],$sequences[$j]\n"; ##added sequence to variable
+	}
+```
+
+Now run the hash script on an demuxed fastq file, then run the modified script on the hash output
+```{bash, eval=FALSE}
+SGE_Batch -c "perl ./scripts/hashseqs.pl ./demuxed_fastq/PT25_C06_ROGR_OmyAC19APPR_0220.fastq > APPR220.hash" -r log_hash
+
+#next create the input file for the gtseq panel
+# used the file at /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/Omy_GTseq390_ProbeSeqs.csv, needed to edit it to be in the right format (locus, fwd, probe1, probe2) (Locus Name,Allele1,Allele2,ProbeSeq1,ProbeSeq2,FWD_Primer,A1_correction,A2_correction)
+
+awk 'BEGIN{FS=",";OFS="\t"} {print $1,$6,$4,$5}' /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/Omy_GTseq390_ProbeSeqs.csv  > probe_seqs.csv
+
+SGE_Batch -c "perl ./scripts/gtseq_seqtest_modified.pl probe_seqs.csv APPR220.hash > seqs.txt" -r log_seqtest
+
+#clean up error in the output 
+sed -i ':a;N;/\n;/s/\n//;ta;P;D' seqs.txt
+sed -i '/^$/d' seqs.txt
+
+#stopped here
+#generated a file of unique reads for each marker than could be collapsed into a consensus sequence and mapped however there are some issues with this approach (see approach 3)
+```
+
+## Approach 3 (used this one)
+
+This approach maps achieves several goals:  
+
+(1) Map reads from many individuals to increase diversity  
+(2) Assess probability of paralogous markers  
+(3) Work only on reads that will enter the GTseq pipeline (i.e. conduct read filtering the same way as GTseq pipeline)  
+(4) If amplicons are not paralagous, generate a final consensus sequence for future mapping projects on new genome when it is published.   
+
+In approaches 1 and 2 above, generating a consensus sequence for the amplicon before mapping will obfiscate any paralogous sequences that will be pulled by the gtseq pipeline, because reads from paralagous loci will be collapsed into a single marker's estimated amplicon sequence. By aligning the full reads against the genome, we can check if any markers are multi-mapping before building and mapping consensus sequence.
+
+```{r}
+
+grViz("digraph flowchart {
+      # node definitions with substituted label text
+      node [fontname = Helvetica, shape = rectangle]        
+      tab1 [label = '@@1']
+      tab2 [label = '@@2']
+      tab3 [label = '@@3']
+      tab4 [label = '@@4']
+      tab5 [label = '@@5']
+      tab6 [label = '@@6']
+      tab7 [label = '@@7']
+      tab8 [label = '@@8']
+      # edge definitions with the node IDs
+      tab1 -> tab2 [label = 'concat']
+      tab2 -> tab3 [label = 'split into marker-level files by primer+probe sequence']
+      tab3 -> tab4 [label = 'align (bwa-mem)']
+      tab4 -> tab5 [label = 'merge bams']
+      tab5 -> tab6 [label = 'samtools: mpileup + consensus']
+      tab5 -> tab7
+      tab4 -> tab8 [label = 'marker level mapQ and genome positions']
+      }
+      [1]: 'demuxed fastq'
+      [2]: 'merged fastq'
+      [3]: 'marker-level fastqs'
+      [4]: 'marker-level bams'
+      [5]: 'merged bams'
+      [6]: 'amplicon consensus sequence'
+      [7]: 'vcf file'
+      [8]: 'mapping statistics/paralog ID'
+
+
+
+      
+      ")
+```
+
+### Mapping
+
+First step is to generate by-marker fastq files from al samples in the dataset
+```{bash, eval = FALSE}
+#first step is to concatenate some fish from a single population in to a large fastq
+# will use the Rogue adult winter fish (CORH and APPR adults at /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/)
+
+#from the fastqs directory
+touch merged.fq
+cat /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/*CORH* >> merged.fq
+cat /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/*APPR* >> merged.fq
+
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+# get panel marker information
+panel <- read_tsv("GTseq_panel_metadata/probe_seqs.csv", col_names = c("marker", "primer","probe1", "probe2"))
+
+#reverse complement function
+reverse_chars <- function(string)
+{
+  # split string by characters
+  string_split = strsplit(string, split = "")
+  # reverse order
+  rev_order = nchar(string):1
+  # reversed characters
+  reversed_chars = string_split[[1]][rev_order]
+  # collapse reversed characters
+  paste(reversed_chars, collapse = "")
+} 
+
+
+panel$probe1rc <- chartr("ATGC","TACG",reverse_chars(panel$probe1))
+panel$probe2rc <- chartr("ATGC","TACG",reverse_chars(panel$probe2))
+
+panel2 <- panel %>%
+  unite(probes, c(probe1, probe1rc, probe2, probe2rc), sep = "|" )
+
+panel2$primer <- paste("^", panel2$primer, sep="")
+write_tsv(panel2, "./GTseq_panel_metadata/gtseq_panel.txt", col_names = FALSE)
+
+```
+
+```{bash, eval = FALSE}
+#next we'll filter the merged fastq into files for each marker based on the presence of the primer and probe sequence using seqkit for speed 
+#can also consider using bbduk and kmer matching to speed up if this is too slow
+
+#set an SGE array with a task dedicated to each line of the probes_seqs.csv file
+
+#!/bin/bash
+#$ -S /bin/bash
+
+#$ -t 1-10
+
+#$ -tc 2
+
+#$ -N marker_split
+
+#$ -cwd
+
+#$ -o $JOB_NAME_$TASK_ID.out
+
+#$ -e $JOB_NAME_$TASK_ID.err
+
+
+SEQKIT="/dfs/FW_HMSC/Omalley_Lab/dayan/software/seqkit"
+MARKER_NAME=$(awk -v "line=$SGE_TASK_ID" 'NR == line {print $1}' ../gtseq_panel.txt)
+PRIMER=$(awk -v "line=$SGE_TASK_ID" 'NR == line {print $2}' ../gtseq_panel.txt)
+PROBE=$(awk -v "line=$SGE_TASK_ID" 'NR == line {print $3}' ../gtseq_panel.txt)
+
+
+cat merged.fq | $SEQKIT grep -s -i -r -p $PRIMER | $SEQKIT grep -s -i -r -p $PROBE > $MARKER_NAME.fq 
+
+
+```
+
+Then we align to the genome with bwa-mem
+```{bash, eval=FALSE}
+#next step is to align to the genome
+
+#first create bwa index
+SGE_Batch -c "bwa index Oncorhynchus_mykiss.Omyk_1.0.dna.toplevel.fa.gz" -r bwa_index
+
+# then align each of the 390 files in the fastq directory using the script below and call with:
+# qsub -q harold -c "scriptname"
+
+#!/bin/bash
+#$ -S /bin/bash
+
+#$ -t 1-390
+
+#$ -tc 10
+
+#$ -N align
+
+#$ -cwd
+
+#Get demuxed files
+FILES=($(ls -1 ../fastqs/fq))
+
+#set up the loop
+FILENAME=${FILES[$SGE_TASK_ID-1]}
+GENOME="/dfs/FW_HMSC/Omalley_Lab/dayan/genomes/Omykiss/Oncorhynchus_mykiss.Omyk_1.0.dna.toplevel.fa.gz"
+
+bwa mem $GENOME $FILENAME | samtools view -bSu - | samtools sort - -o ./${FILENAME%.fq}.bam &> bwa_mem.oe
+
+
+```
+
+### Marker Mapping Stats
+Next we analyze mapping statistics for each marker
+
+### Consensus Sequence
+Here we generate a Rogue River marker consensus sequence that can be used for future mapping projects. 
+
+
+## Probe + Primer
+
+The chinook results suggests that there are significant enough number of off target reads that coatin the forward primer that this is not enoguh information to map on. However, adding the probe sequence and the reverse primer may be enough to permit accurate mapping and has the advantage of not having to deal with raw reads. The challenge here will be (a) correctly orienting the primer, probe and reverse primer into a concatenated sequence to map, and (b) optimizing mapping to deal with a gapped alignment (i.e. will be missing some sequence that is not included in the primers or the probe, but do not know exactly how much)
+
+Also of note here is that the GTseq pipeline does not use alignment match reads to primer/probe sequences, instead it simply pulls a a read at a time and checks that it contains an exact match to the forward primer AND either one of the probe sequences or its reverse complement, so making a set of rules for an aligner that is similar should be relatively straightforward.
+
+
+# Results Summary
+
+summary
