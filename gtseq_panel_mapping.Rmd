@@ -12,8 +12,14 @@ output:
 ```{r, message=FALSE, warning=FALSE}
 #packages here
 require(tidyverse)
+require(scales)
+require(adegenet)
 require(DiagrammeR)
 require(Biostrings)
+require(cowplot)
+require(pegas)
+require(GenomicRanges)
+require(GenomicFeatures)
 
 ```
 
@@ -66,10 +72,581 @@ grViz("digraph flowchart {
 
 The basic approach is to gather amplicon sequences for using similar filtering criteria to GTseq pipeline, then map these sequences.
 
-Several approaches were used, final results are presented from **Approach 3**
+Several approaches were used, final results are presented from **Final Approach**
 
-## Chinook approach
+## Final Approach (used this one)
 
+This approach maps achieves several goals:  
+
+(1) Map reads from many individuals to increase diversity  
+(2) Assess probability of paralogous markers  
+(3) Work only on reads that will enter the GTseq pipeline (i.e. conduct read filtering the same way as GTseq pipeline)  
+(4) If amplicons are not paralagous, generate a final consensus sequence for future mapping projects on new genome when it is published.   
+
+In approaches 1 and 2 above, generating a consensus sequence for the amplicon before mapping will obfiscate any paralogous sequences that will be pulled by the gtseq pipeline, because reads from paralagous loci will be collapsed into a single marker's estimated amplicon sequence. By aligning the full reads against the genome, we can check if any markers are multi-mapping before building and mapping consensus sequence.
+
+```{r}
+
+grViz("digraph flowchart {
+      # node definitions with substituted label text
+      node [fontname = Helvetica, shape = rectangle]        
+      tab1 [label = '@@1']
+      tab2 [label = '@@2']
+      tab3 [label = '@@3']
+      tab4 [label = '@@4']
+      tab5 [label = '@@5']
+      tab6 [label = '@@6']
+      tab7 [label = '@@7']
+      tab8 [label = '@@8']
+      # edge definitions with the node IDs
+      tab1 -> tab2 [label = 'concat']
+      tab2 -> tab3 [label = 'split into marker-level files by primer+probe sequence']
+      tab3 -> tab4 [label = 'align (bwa-mem)']
+      tab4 -> tab5 [label = 'merge bams']
+      tab5 -> tab6 [label = 'samtools: mpileup + consensus']
+      tab5 -> tab7
+      tab4 -> tab8 [label = 'marker level mapQ and genome positions']
+      }
+      [1]: 'demuxed fastq'
+      [2]: 'merged fastq'
+      [3]: 'marker-level fastqs'
+      [4]: 'marker-level bams'
+      [5]: 'merged bams'
+      [6]: 'amplicon consensus sequence'
+      [7]: 'vcf file'
+      [8]: 'mapping statistics/paralog ID'
+
+
+
+      
+      ")
+```
+
+### Mapping
+
+First step is to generate by-marker fastq files from al samples in the dataset
+```{bash, eval = FALSE}
+#first step is to concatenate some fish from a single population in to a large fastq
+# will use the Rogue adult winter fish (CORH and APPR adults at /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/)
+
+#from the fastqs directory
+touch merged.fq
+cat /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/*CORH* >> merged.fq
+cat /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/*APPR* >> merged.fq
+
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+# get panel marker information
+panel <- read_tsv("GTseq_panel_metadata/probe_seqs.csv", col_names = c("marker", "primer","probe1", "probe2"))
+
+#sanitize probe sequences
+#note that some (15) of the probe sequences are identical and degenerate ie AT[AC]GC for both sequences, lets sanitize this dataset so all will be in the same format
+#given the low numbers just did it manualy in text editor (i.e. converted one to the first value and the second to the second)
+
+#REVERSE COMPLEMENTS
+panel$probe1rc <- sapply(panel$probe1, function(x) as.character(reverseComplement(DNAString(x))))
+panel$probe2rc <- sapply(panel$probe2, function(x) as.character(reverseComplement(DNAString(x))))
+
+panel2 <- panel %>%
+  unite(probes, c(probe1, probe1rc, probe2, probe2rc), sep = "|" )
+
+panel2$primer <- paste("^", panel2$primer, sep="")
+#write_tsv(panel2, "./GTseq_panel_metadata/gtseq_panel.txt", col_names = FALSE)
+
+```
+
+```{bash, eval = FALSE}
+#next we'll filter the merged fastq into files for each marker based on the presence of the primer and probe sequence using seqkit for speed 
+#can also consider using bbduk and kmer matching to speed up if this is too slow
+
+#set an SGE array with a task dedicated to each line of the probes_seqs.csv file
+
+#!/bin/bash
+#$ -S /bin/bash
+
+#$ -t 1-10
+
+#$ -tc 2
+
+#$ -N marker_split
+
+#$ -cwd
+
+#$ -o $JOB_NAME_$TASK_ID.out
+
+#$ -e $JOB_NAME_$TASK_ID.err
+
+
+SEQKIT="/dfs/FW_HMSC/Omalley_Lab/dayan/software/seqkit"
+MARKER_NAME=$(awk -v "line=$SGE_TASK_ID" 'NR == line {print $1}' ../gtseq_panel.txt)
+PRIMER=$(awk -v "line=$SGE_TASK_ID" 'NR == line {print $2}' ../gtseq_panel.txt)
+PROBE=$(awk -v "line=$SGE_TASK_ID" 'NR == line {print $3}' ../gtseq_panel.txt)
+
+
+cat merged.fq | $SEQKIT grep -s -i -r -p $PRIMER | $SEQKIT grep -s -i -r -p $PROBE > $MARKER_NAME.fq 
+
+
+```
+
+Then we align to the genome with bwa-mem
+```{bash, eval=FALSE}
+#next step is to align to the genome
+
+#first create bwa index
+SGE_Batch -c "bwa index Oncorhynchus_mykiss.Omyk_1.0.dna.toplevel.fa.gz" -r bwa_index
+
+# then align each of the 390 files in the fastq directory using the script below and call with:
+# qsub -q harold -c "scriptname"
+
+#!/bin/bash
+#$ -S /bin/bash
+
+#$ -t 1-390
+
+#$ -tc 10
+
+#$ -N align
+
+#$ -cwd
+
+#Get demuxed files
+FILES=($(ls -1 ../fastqs/*fq))
+
+#set up the loop
+FILENAME=${FILES[$SGE_TASK_ID-1]}
+GENOME="/dfs/FW_HMSC/Omalley_Lab/dayan/genomes/Omykiss/Oncorhynchus_mykiss.Omyk_1.0.dna.toplevel.fa.gz"
+
+SAMTOOLS="/local/cluster/bin/samtools"
+BWA="/local/cluster/bin/bwa"
+
+$BWA mem $GENOME $FILENAME | $SAMTOOLS view -bSu - | $SAMTOOLS sort - -o ./${FILENAME%.fq}.bam &> ${FILENAME%.fq}bwa_mem.oe
+
+
+```
+
+### Marker Mapping Stats
+
+Next we analyze mapping statistics for each marker
+
+```{bash, eval=FALSE}
+#first check flagstat, then pull SAM records and check mapQ and if any multi-aligning reads were found
+#for each marker file collect:
+#number of reads, properly aligning, secondary alignments, suppl alignments, average mapQ and the presence of any multi-mapping reads using flagstat 
+touch bam_flagstats.txt
+for i in *.bam; do
+    #SITE=$($i)
+    FLAG=$(samtools flagstat $i)
+    READS=$(echo "$FLAG" | awk 'BEGIN { FS = " " } NR==1 {print $1}')
+    PRIMARY=$(echo "$FLAG" | awk 'BEGIN { FS = " " } NR==5 {print $1}')
+    SECONDARY=$(echo "$FLAG" | awk 'BEGIN { FS = " " } NR==2 {print $1}')
+    SUPPL=$(echo "$FLAG" | awk 'BEGIN { FS = " " } NR==3 {print $1}')
+    MAPQ=$(samtools view $i | awk -F "\t" '{sum+=$5} END {print sum/NR}')
+    SECOND_ALIGN=$(samtools view $i | grep  -e 'XA:Z:' | wc -l)
+    paste <(printf "%s" "$i") <(printf "%s" "$READS") <(printf "%s" "$PRIMARY") <(printf "%s" "$SECONDARY") <(printf "%s" "$SUPPL") <(printf "%s" "$MAPQ") <(printf "%s" "$SECOND_ALIGN") --delimiters '\t' >> bam_flagstats.txt
+done
+
+```
+
+Lets examine the distribution of mapping results:
+```{r, message = FALSE, warning=FALSE}
+map_results <- read_tsv("mapping_results/bam_flagstats.txt", col_names = c("marker", "reads", "primary", "secondary", "suppl", "mapq", "second_align"))
+b <- ggplot(data=map_results)+geom_histogram(aes(x=primary))+theme_classic()
+d <- ggplot(data=map_results)+geom_histogram(aes(x=suppl))+theme_classic()
+e <- ggplot(data=map_results)+geom_histogram(aes(x=mapq))+theme_classic()
+f <- ggplot(data=map_results)+geom_histogram(aes(x=second_align/primary))+theme_classic()+xlab("proportion multimapping reads")
+h <- ggplot(data=map_results)+geom_point(aes(x=(second_align/primary), y = mapq))+geom_smooth(aes(x=(second_align/primary), y = mapq), method = "lm")
+i <- ggplot(data=map_results)+geom_point(aes(x=(primary), y = mapq))+geom_smooth(aes(x=(primary), y = mapq), method = "lm")
+j <- ggplot(data=map_results)+geom_point(aes(x=(second_align/primary), y = primary))+geom_smooth(aes(x=(second_align/primary), y = primary), method = "lm")
+
+plot_grid(b,d,e,f,h,i,j, ncol =2)
+
+#note "secondary" column from flagstats always = 0 and reads always = alignments, so skipped
+
+```
+
+```{r}
+multimap_50 <- sum((map_results$second_align/map_results$primary) > 0.5, na.rm = TRUE)
+bad_map <- sum(map_results$mapq<3, na.rm = TRUE)
+bad_mapXmultimap <- sum(map_results$mapq<3 | (map_results$second_align/map_results$primary) > 0.5, na.rm = TRUE)
+bad_markers <- map_results[((map_results$second_align/map_results$primary) > 0.5), 1]
+```
+
+Hmmm, lets check if the "multimapping" reads are reliably multimapping. Is the secondary alignment relatively good compared to the primary alignment?
+
+```{bash, eval=FALSE}
+#This collects the average alignment score of (the secondary alignment divided by the primary alignment)
+#!/bin/bash
+#$ -S /bin/bash
+#$ -N bad_markers
+#$ -cwd
+
+BAD_MARKERS="Chr28_11667578.bam
+OMS00096.bam
+OMS00149.bam
+Omy_110689-148.bam
+Omy_116938-264.bam
+Omy_128693-455.bam
+Omy_anp-17.bam
+Omy_BAMBI2.312.bam
+Omy_carban1-264.bam
+Omy_cd28-130.bam
+Omy_crb-106.bam
+Omy_inos-97.bam
+Omy_myclarp404-111.bam
+Omy_nips-299.bam
+Omy_RAD13034-67.bam
+Omy_RAD1751-18.bam
+Omy_RAD19578-59.bam
+Omy_RAD30243-74.bam
+Omy_RAD32139-58.bam
+Omy_RAD36848-7.bam
+Omy_RAD39156-33.bam
+Omy_RAD43117-55.bam
+Omy_RAD55997-10.bam
+Omy_RAD619-59.bam
+Omy_RAD66402-36.bam
+Omy_RAD78147-27.bam
+Omy_RAD86706-72.bam
+Omy_stat3-273.bam"
+
+touch marker_mapping_ratios.txt
+for i in $BAD_MARKERS
+do
+samtools view $i | grep  "XA:" | awk '{print $14,$15}' | sed 's/ /:/g'  | awk 'BEGIN {FS=":"} {sum +=$6/$3} END {print sum/NR}' >> marker_mapping_ratios.txt
+done
+
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+map_ratio <- read_tsv("mapping_results/marker_mapping_ratios.txt")
+ggplot(data=map_ratio)+geom_histogram(aes(x=Aln_Score_Ratio))+theme_classic()+xlim(c(0,1))
+```
+
+Yes the secondary alignments are nearly as good as the primary alignments. 
+
+
+__Marker Mapping Stats Results summary: __  
+(1) left skew with long right tail on number of primary reads, suggesting there may be some markers drawn from multiple genomic regions (i.e. much higher coverage than average suggests paralogs), however, important to remember that variance in GTseq primer characteristics might lead to high variance in amplification rates so this might not be the best paralog filter compared to other types of NGS data  
+(2) Most markers have perfect or near perfect mapQ and no secondary (multiply aligning) or supplemental aligning reads, however some markers have high proportion of multiply alignments (28 with >50%), and low mapQ (16 with mapQ less than 3)  
+(3) Poor mapq and proportions of multiply aligning reads are strongly correlated, number of reads and poor mapq as well as proportion of secondary aignments and number of reads are NOT strongly correlated highlighting that covreage may be a poor way to check for paralogues
+
+### HWE
+Do poorly mapping markers also demonstrate an excess of heterozygotes?
+
+Using a previous GTseq genotyping run (Rogue River baseline 2019) we compare observed vs expected heterozygosity. This dataset only genotyped 330 markers (others removed during filtering), so some markers must be analyzed later.
+
+```{r, message=FALSE, warning=FALSE}
+load("2019_Rogue_gtseq_baseline/genind.R")
+
+#separate pops to avoid Wahlund effect
+n.pop <- seppop(genind) 
+
+#collect observed vs expected het for winter fish
+hobs <- summary(n.pop$Winter)$Hobs
+hexp <- summary(n.pop$Winter)$Hexp
+het <- as.data.frame(cbind(hexp, hobs))
+
+HWE <- hw.test(n.pop$Winter)
+HWE <- as.data.frame(HWE) %>%
+  mutate(marker = row.names(HWE))
+  
+
+#join these results with mapping results and HWE
+map_results$marker <- gsub("*.bam","",map_results$marker)
+het <- het %>%
+  mutate(marker = row.names(het)) %>%
+  left_join(map_results)
+
+het <- het %>%
+  mutate(multimap = if_else(second_align/primary > 0.5, 'multimap', 'single_map'))
+
+het <- het %>%
+  left_join(HWE) %>%
+  mutate(sig_HWE= if_else(`Pr(chi^2 >)` < 0.05, 'outHWE', 'HWE'))
+
+sum(het$sig_HWE=="outHWE" && het$multimap=="multimap")
+
+ggplot(data=het)+geom_point(aes( hexp, hobs, color= multimap))+geom_abline(slope=1, intercept = 0)+theme_classic()+scale_color_viridis_d()
+
+```
+
+No markers that demonstrate significant departure from HWE (p < 0.05) are also multimapping. However only 21 of the 28 multimapping markers overlap with this GTseq run. May want to run GTseq ourselves and check again. 
+
+
+### Consensus Sequence
+Here we generate amplicon consensus sequences that can be used for future mapping projects.
+
+
+```{bash, eval=FALSE}
+
+merge bams -> variant call and index -> consensus sequence
+individual bams -> bed for each marker with consensus sequence -> consensus amplicon
+
+#first merge all bams to a single file
+samtools merge all.bam *.bam
+
+#variant calling script (need to call variants to generate consensus sequence in samtools framework) (make sure to set bash as shell in the command)
+
+#$ -S /bin/bash
+#$ -N consensus sequence
+#$ -cwd
+#$ -e error.txt
+
+GENOME="/dfs/FW_HMSC/Omalley_Lab/dayan/genomes/Omykiss/Oncorhynchus_mykiss.Omyk_1.0.dna.toplevel.fa.gz"
+BCFTOOLS="/local/cluster/bin/bcftools"
+
+$BCFTOOLS mpileup -Ou --max-depth 10000-f $GENOME all.bam | $BCFTOOLS call -mv -Ob -o calls.bcf
+#index
+$BCFTOOLS index calls.bcf
+
+#generate consensus
+cat $GENOME | $BCFTOOLS consensus calls.bcf > consensus.fa
+
+# this script takes individual bam files and makes a bed file for the 
+# #!/bin/bash
+#$ -S /bin/bash
+
+#$ -t 1-390
+
+#$ -tc 20
+
+#$ -N consensus
+
+#$ -cwd
+
+#$ -e error.txt
+
+#set some shortcut variables
+GENOME="/dfs/FW_HMSC/Omalley_Lab/dayan/genomes/Omykiss/Oncorhynchus_mykiss.Omyk_1.0.dna.toplevel.fa.gz"
+BCFTOOLS="/local/cluster/bin/bcftools"
+BEDTOOLS="/local/cluster/bedtools2/bin/bedtools"
+SEQKIT="/dfs/FW_HMSC/Omalley_Lab/dayan/software/seqkit"
+
+
+#Get demuxed files
+FILES=($(ls -1 ../alignments/*bam))
+
+#set up the loop
+FILENAME=${FILES[$SGE_TASK_ID-1]}
+
+#just bam records of correct length
+$BEDTOOLS bamtobed -i $FILENAME > ${FILENAME%.bam}.bed
+
+$BEDTOOLS getfasta -s -fi consensus.fa -bed ${FILENAME%.bam}.bed -fo ${FILENAME%.bam}.fa
+AMPLICON=$($SEQKIT seq -M 102 -w 0 ${FILENAME%.bam}.fa | perl -e 'while (<>) {$h=$_; $s=<>; $seqs{$h}=$s;} foreach $header (reverse sort {length($seqs{$a}) <=> length($seqs{$b})} keys %seqs) {print $header.$seqs{$header}}' | head -2 | tr "\n" "\t") # this collects the consensus sequence for the interval spanning the longest read that aligned to the genome so long as that interval is shorter than the read length (101bp)
+
+paste <(printf "%s" "$FILENAME") <(printf "%s" "$AMPLICON")  --delimiters '\t' >> amplicons.txt
+
+#then cleaned up this file with regex and saved as mapping_results/amplicons.txt
+
+```
+
+```{r, warning=FALSE, message=FALSE}
+amps <- read_tsv("mapping_results/amplicons.txt")
+amps$start <- as.numeric(amps$start)
+amps$end <- as.numeric(amps$end)
+
+```
+
+### Where are the markers
+Are any markers overlapping?
+```{r}
+rangs <- makeGRangesFromDataFrame(amps, seqnames.field = "chr", start.field = "start", end.field = "end", strand.field = "strand", keep.extra.columns = TRUE)
+rangs[countOverlaps(rangs)>1]$marker
+
+
+```
+
+Omy_RAD15709-53 Omy_RAD47080-54 overlap, let's look more closely at them.
+
+```{r, warning=FALSE}
+amps[amps$marker==c("Omy_RAD15709-53" ,"Omy_RAD47080-54"),]
+```
+They cover the exact same regions of the genome, do they also share the same probe sequence?
+
+```{r, include=FALSE}
+panel2$probes[panel2$marker=="Omy_RAD15709-53"]
+panel2$probes[panel2$marker=="Omy_RAD47080-54"]
+```
+
+Yes, same probe sequences capture the same SNP, just different intervals around it. Aligned sequence here:  
+```
+   ATGCAAGGCTTAAA|        TTTAAGCCTTGCAT|ATGCAAGACTTAAA|        TTTAAGTCTTGCAT  
+    TGCAAGACTTAAAACGA|TCGTTTTAAGTCTTGCA|  TGCAAGGCTTAAAACGA|TCGTTTTAAGCCTTGCA
+```    
+
+What about longer distances?
+```{r}
+rangs[countOverlaps(rangs, maxgap=1000)>1]$marker
+overlaps_1k <- findOverlaps(rangs, maxgap=1000, drop.self=TRUE, drop.redundant=TRUE)
+cbind(c(rangs[overlaps_1k@from]$marker), rangs[overlaps_1k@to]$marker)
+kb_markers <- unique(unlist(as.data.frame(cbind(c(rangs[overlaps_1k@from]$marker), rangs[overlaps_1k@to]$marker))))
+length(kb_markers)
+arrange(amps[amps$marker %in% (kb_markers),], chr)
+
+overlaps_10k <- findOverlaps(rangs, maxgap=10000, drop.self=TRUE, drop.redundant=TRUE)
+cbind(c(rangs[overlaps_10k@from]$marker), rangs[overlaps_10k@to]$marker)
+kb10_markers <- unique(unlist(as.data.frame(cbind(c(rangs[overlaps_10k@from]$marker), rangs[overlaps_10k@to]$marker))))
+length(kb10_markers)
+kb10 <- amps[amps$marker %in% (kb10_markers),]
+arrange(kb10, chr, start)
+```
+
+There are also 5 pairs of markers within 1kb of one another (10 markers), and 19 pairs within 10kb (24 markers).
+
+For the 1kb pairs, pairs occur on 4 chromosomes, (2,4,7,28) over 5 regions (there are two regions on chromosome 7 about 47Mb apart).
+
+For the 10kb pairs, pairs occur on 7 chromosomes (2,4,7,16,17,28,29) over 8 regions (two regions on chromosome 7 about 47Mb apart)
+
+__Plots__
+
+```{r, warning=FALSE, message=FALSE}
+chrom_sizes <- read_tsv("GTseq_panel_metadata/chr_sizes.txt")
+
+amps$chromosome <- amps$chr
+colnames(chrom_sizes) <- c("chromosome", "size")
+
+# create an ordered factor level to use for the chromosomes in all the datasets
+chrom_order <- c("1", "2", "3", "4", "5", "6", "7", 
+                 "8", "9", "10", "11", "12", "13", "14", 
+                 "15", "16", "17", "18", "19", "20", "21", 
+                 "22", "23", "24", "25", "26", "27", "28", "29", "MSJN01077273.1")
+chrom_key <- setNames(object = as.character(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
+                                              12, 13, 14, 15, 16, 17, 18, 19, 20, 
+                                              21, 22, 23, 24, 25, 26, 27, 28, 29, 30)), 
+                      nm = chrom_order)
+chrom_order <- factor(x = chrom_order, levels = rev(chrom_order))
+
+# convert the chromosome column in each dataset to the ordered factor
+chrom_sizes[["chromosome"]] <- factor(x = chrom_sizes[["chromosome"]], 
+                                      levels = chrom_order)
+amps[["chromosome"]] <- factor(x = amps[["chromosome"]], 
+                                     levels = chrom_order)
+
+
+allmarkers <- ggplot(data = chrom_sizes) + 
+    # base rectangles for the chroms, with numeric value for each chrom on the x-axis
+    geom_rect(aes(xmin = as.numeric(chromosome) - 0.2, 
+                  xmax = as.numeric(chromosome) + 0.2, 
+                  ymax = size, ymin = 0), 
+              colour="black", fill = "white") + 
+    # rotate the plot 90 degrees
+    coord_flip() +
+    # black & white color theme 
+    theme(axis.text.x = element_text(colour = "black"), 
+          panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(), 
+          panel.background = element_blank()) +
+   geom_rect(data = amps, aes(xmin = as.numeric(chromosome) - 0.2, 
+                                     xmax = as.numeric(chromosome) + 0.2, 
+                                     ymax = end+50000, ymin = start-50000), fill="red")+
+    # supress scientific notation on the y-axis
+    scale_y_continuous(label=comma) +
+  scale_x_discrete(name = "chromosome", limits = names(chrom_key)) +
+    ylab("region (bp)")
+
+```
+
+
+What about the dense regions? Can we make a plot with genes and take a look at what we're tagging.
+
+```{r}
+require(karyoploteR)
+
+chrom_sizes$start <- rep(1, 30)
+Omy.genome <- toGRanges(data.frame(chr=chrom_sizes$chromosome, start=rep(1, 30), end=chrom_sizes$size))
+
+```
+
+Let's Look at a handful of individual chromosomes
+```{r}
+kp <- plotKaryotype(genome = Omy.genome, chromosomes = "28")
+kpAddBaseNumbers(kp)
+kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker)
+
+kp <- plotKaryotype(genome = Omy.genome, chromosomes = "7")
+kpAddBaseNumbers(kp)
+kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker)
+
+kp <- plotKaryotype(genome = Omy.genome, chromosomes = "7")
+kpAddBaseNumbers(kp)
+kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker)
+```
+
+```{r}
+#note this will not work for cloned repositories because thegff file is not in the repo, must download the gff yourself
+db28 <- makeTxDbFromGFF("2019_Rogue_gtseq_baseline/Oncorhynchus_mykiss.Omyk_1.0.100.primary_assembly.28.gff3.gz")
+```
+
+```{r}
+greb1_region <- toGRanges(data.frame("28", 11580000, 11800000))
+
+pp <- getDefaultPlotParams(plot.type=2)
+pp$bottommargin <- 1
+pp$data1height <- 400 
+kp <- plotKaryotype(plot.type =2, genome = Omy.genome, zoom=greb1_region, plot.params = pp)
+kpPlotGenes(kp, data = db28, r0=0, r1=0.2, add.gene.names = TRUE, add.transcript.names = FALSE, add.strand.marks = FALSE, data.panel = 2, plot.transcripts = FALSE, gene.name.position = "bottom", gene.col = "#FDE725FF", clipping = FALSE)
+kpAddBaseNumbers(kp, tick.dist = 100000)
+kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker, data.panel = 1, marker.parts = c(0.1,0.1,0.1), clipping = FALSE, ymax=3)
+```
+
+```{r}
+greb1_region <- toGRanges(data.frame("28", 11580000, 11800000))
+
+pp <- getDefaultPlotParams(plot.type=2)
+pp$bottommargin <- 1
+pp$data1height <- 400 
+kp <- plotKaryotype(plot.type =2, genome = Omy.genome, zoom=greb1_region, plot.params = pp)
+kpPlotGenes(kp, data = db28, r0=0, r1=0.2, add.gene.names = TRUE, add.transcript.names = FALSE, add.strand.marks = FALSE, data.panel = 2, plot.transcripts = FALSE, gene.name.position = "bottom", gene.col = "#FDE725FF", clipping = FALSE)
+kpAddBaseNumbers(kp, tick.dist = 100000)
+kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker, data.panel = 1, marker.parts = c(0.1,0.1,0.1), clipping = FALSE, ymax=3)
+```
+
+### Synthesize Results with CRITFC
+
+First let's get al the SFGL results into one place
+```{r, message=FALSE, warning=FALSE}
+amps + panel2 + map_results$mapq + map_results secondary alignment  + marker summary from lab
+
+map_results$marker=gsub("*.bam","",map_results$marker)
+lab_results <- read_tsv("GTseq_panel_metadata/gtseq_panel_info_SFGL.txt")
+master <- lab_results %>%
+  dplyr::rename(marker=Assay) %>%
+  full_join(amps) %>%
+  full_join(panel2) %>%
+  full_join(map_results)
+
+#a set of markers is named differently despite being the same marker across these spreadsheets, markers in most doc refer to these as Omy28_postion, lets rename them to match
+to_rename <- master$marker[c(392:401)]
+new_name <- gsub("Chr", "Omy",master$marker[c(392:401)])
+
+lapply(1:10,FUN = function(i){amps[amps == to_rename[i]] <<- new_name[i]})
+lapply(1:10,FUN = function(i){panel2[panel2 == to_rename[i]] <<- new_name[i]})
+lapply(1:10,FUN = function(i){map_results[map_results == to_rename[i]] <<- new_name[i]})
+
+
+master <- lab_results %>%
+  dplyr::rename(marker=Assay) %>%
+  full_join(amps) %>%
+  full_join(panel2) %>%
+  full_join(map_results)
+
+#now merge with CRITFC_mapping results
+#first had to clean up the marker column in this spreadsheet,  markers with multiple secondary alignments were split into separate rows and had marker coulmn renamed to reflect, I collapsed marker names back to original and kept only best hit, and marked any reads with seoncdary alignments with new column
+CRITFC <- read_tsv("shared_info/CRITFC_map_results.txt")
+
+master2 <- master %>%
+  full_join(CRITFC)
+
+```
+
+
+## Other Approaches
+
+### Chinook Approach
 In previous mapping project for Chinook the following approach was taken:
 
 (1) From demultiplexed fastq files, retrieve reads with exact match to marker forward primers using grep (see code chunk below)  
@@ -695,7 +1272,7 @@ done
 
 However, Sandra described this approach as time-consuming (mostly due to sorting off target reads that contained the primer, but not the probe), so it may be good to try an alternative approach before doing this.
 
-## Approach 2
+### Approach 2
 
 In this approach we modify the GTseq pipeline scripts to pull out "on target reads" identified by the pipeline and then just keep a set of these for each individual.
 
@@ -809,172 +1386,9 @@ sed -i '/^$/d' seqs.txt
 #generated a file of unique reads for each marker than could be collapsed into a consensus sequence and mapped however there are some issues with this approach (see approach 3)
 ```
 
-## Approach 3 (used this one)
-
-This approach maps achieves several goals:  
-
-(1) Map reads from many individuals to increase diversity  
-(2) Assess probability of paralogous markers  
-(3) Work only on reads that will enter the GTseq pipeline (i.e. conduct read filtering the same way as GTseq pipeline)  
-(4) If amplicons are not paralagous, generate a final consensus sequence for future mapping projects on new genome when it is published.   
-
-In approaches 1 and 2 above, generating a consensus sequence for the amplicon before mapping will obfiscate any paralogous sequences that will be pulled by the gtseq pipeline, because reads from paralagous loci will be collapsed into a single marker's estimated amplicon sequence. By aligning the full reads against the genome, we can check if any markers are multi-mapping before building and mapping consensus sequence.
-
-```{r}
-
-grViz("digraph flowchart {
-      # node definitions with substituted label text
-      node [fontname = Helvetica, shape = rectangle]        
-      tab1 [label = '@@1']
-      tab2 [label = '@@2']
-      tab3 [label = '@@3']
-      tab4 [label = '@@4']
-      tab5 [label = '@@5']
-      tab6 [label = '@@6']
-      tab7 [label = '@@7']
-      tab8 [label = '@@8']
-      # edge definitions with the node IDs
-      tab1 -> tab2 [label = 'concat']
-      tab2 -> tab3 [label = 'split into marker-level files by primer+probe sequence']
-      tab3 -> tab4 [label = 'align (bwa-mem)']
-      tab4 -> tab5 [label = 'merge bams']
-      tab5 -> tab6 [label = 'samtools: mpileup + consensus']
-      tab5 -> tab7
-      tab4 -> tab8 [label = 'marker level mapQ and genome positions']
-      }
-      [1]: 'demuxed fastq'
-      [2]: 'merged fastq'
-      [3]: 'marker-level fastqs'
-      [4]: 'marker-level bams'
-      [5]: 'merged bams'
-      [6]: 'amplicon consensus sequence'
-      [7]: 'vcf file'
-      [8]: 'mapping statistics/paralog ID'
 
 
-
-      
-      ")
-```
-
-### Mapping
-
-First step is to generate by-marker fastq files from al samples in the dataset
-```{bash, eval = FALSE}
-#first step is to concatenate some fish from a single population in to a large fastq
-# will use the Rogue adult winter fish (CORH and APPR adults at /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/)
-
-#from the fastqs directory
-touch merged.fq
-cat /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/*CORH* >> merged.fq
-cat /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/*APPR* >> merged.fq
-
-```
-
-
-```{r, message=FALSE, warning=FALSE}
-# get panel marker information
-panel <- read_tsv("GTseq_panel_metadata/probe_seqs.csv", col_names = c("marker", "primer","probe1", "probe2"))
-
-#reverse complement function
-reverse_chars <- function(string)
-{
-  # split string by characters
-  string_split = strsplit(string, split = "")
-  # reverse order
-  rev_order = nchar(string):1
-  # reversed characters
-  reversed_chars = string_split[[1]][rev_order]
-  # collapse reversed characters
-  paste(reversed_chars, collapse = "")
-} 
-
-
-panel$probe1rc <- chartr("ATGC","TACG",reverse_chars(panel$probe1))
-panel$probe2rc <- chartr("ATGC","TACG",reverse_chars(panel$probe2))
-
-panel2 <- panel %>%
-  unite(probes, c(probe1, probe1rc, probe2, probe2rc), sep = "|" )
-
-panel2$primer <- paste("^", panel2$primer, sep="")
-write_tsv(panel2, "./GTseq_panel_metadata/gtseq_panel.txt", col_names = FALSE)
-
-```
-
-```{bash, eval = FALSE}
-#next we'll filter the merged fastq into files for each marker based on the presence of the primer and probe sequence using seqkit for speed 
-#can also consider using bbduk and kmer matching to speed up if this is too slow
-
-#set an SGE array with a task dedicated to each line of the probes_seqs.csv file
-
-#!/bin/bash
-#$ -S /bin/bash
-
-#$ -t 1-10
-
-#$ -tc 2
-
-#$ -N marker_split
-
-#$ -cwd
-
-#$ -o $JOB_NAME_$TASK_ID.out
-
-#$ -e $JOB_NAME_$TASK_ID.err
-
-
-SEQKIT="/dfs/FW_HMSC/Omalley_Lab/dayan/software/seqkit"
-MARKER_NAME=$(awk -v "line=$SGE_TASK_ID" 'NR == line {print $1}' ../gtseq_panel.txt)
-PRIMER=$(awk -v "line=$SGE_TASK_ID" 'NR == line {print $2}' ../gtseq_panel.txt)
-PROBE=$(awk -v "line=$SGE_TASK_ID" 'NR == line {print $3}' ../gtseq_panel.txt)
-
-
-cat merged.fq | $SEQKIT grep -s -i -r -p $PRIMER | $SEQKIT grep -s -i -r -p $PROBE > $MARKER_NAME.fq 
-
-
-```
-
-Then we align to the genome with bwa-mem
-```{bash, eval=FALSE}
-#next step is to align to the genome
-
-#first create bwa index
-SGE_Batch -c "bwa index Oncorhynchus_mykiss.Omyk_1.0.dna.toplevel.fa.gz" -r bwa_index
-
-# then align each of the 390 files in the fastq directory using the script below and call with:
-# qsub -q harold -c "scriptname"
-
-#!/bin/bash
-#$ -S /bin/bash
-
-#$ -t 1-390
-
-#$ -tc 10
-
-#$ -N align
-
-#$ -cwd
-
-#Get demuxed files
-FILES=($(ls -1 ../fastqs/fq))
-
-#set up the loop
-FILENAME=${FILES[$SGE_TASK_ID-1]}
-GENOME="/dfs/FW_HMSC/Omalley_Lab/dayan/genomes/Omykiss/Oncorhynchus_mykiss.Omyk_1.0.dna.toplevel.fa.gz"
-
-bwa mem $GENOME $FILENAME | samtools view -bSu - | samtools sort - -o ./${FILENAME%.fq}.bam &> bwa_mem.oe
-
-
-```
-
-### Marker Mapping Stats
-Next we analyze mapping statistics for each marker
-
-### Consensus Sequence
-Here we generate a Rogue River marker consensus sequence that can be used for future mapping projects. 
-
-
-## Probe + Primer
+### Probe + Primer
 
 The chinook results suggests that there are significant enough number of off target reads that coatin the forward primer that this is not enoguh information to map on. However, adding the probe sequence and the reverse primer may be enough to permit accurate mapping and has the advantage of not having to deal with raw reads. The challenge here will be (a) correctly orienting the primer, probe and reverse primer into a concatenated sequence to map, and (b) optimizing mapping to deal with a gapped alignment (i.e. will be missing some sequence that is not included in the primers or the probe, but do not know exactly how much)
 
@@ -983,4 +1397,52 @@ Also of note here is that the GTseq pipeline does not use alignment match reads 
 
 # Results Summary
 
-summary
+We mapped reads from 42 Rogue River steelhead after applying the same filtering approach to identify on target reads as the GTseq v3 pipeline. Using these alignments we examined read mapping statistics to identify potentially paralogous markers, identify duplicate markers, examine marker density along the genome and generate a consensus sequence for marker amplicons. 
+
+## Evidence of Paralogous Markers 
+We found that the GTseq pipeline will call genotypes from reads that may be derived from independent, paralogous genomic regions. Of the 390 markers in the panel, 30 demonstrated evidence of multimapping either due to (a) 50% or more of reads assigned as "on-target" strongly aligning to multiple genomic loci (28 markers) or (b) mapQ score of less than 3 (50% probability of incorrect alignment) (16 markers). See figure below. However, these markers do not demonstrate an excess of heterozygosity as might be expected for paralogues.
+
+```{r, warning=FALSE, message=FALSE}
+plot_grid(e,f,ncol=2)
+```
+
+## Marker Density and Duplication  
+There are two exactly identical markers in the panel. These markers vary in probe and primer sequence but tag the same SNP.  
+5 pairs of markers (over 10 markers) map within 1kb of one another, and 19 pairs (over 24 markers) map within 10kb. These regions of dense genotyping occur over 5 and 8 genomic regions, respectively.  
+For the 1kb pairs, pairs occur on 4 chromosomes, (2,4,7,28) over 5 regions (there are two regions on chromosome 7 about 47Mb apart).  
+For the 10kb pairs, pairs occur on 7 chromosomes (2,4,7,16,17,28,29) over 8 regions (two regions on chromosome 7 about 47Mb apart)
+
+## Mapping Figures and Annotations
+
+How are the markers distributed along the genome?
+
+```{r, warning=FALSE, message=FALSE}
+allmarkers
+```
+
+We can also take a closer look at chromosome 28
+```{r, warning=FALSE, message=FALSE}
+kp <- plotKaryotype(genome = Omy.genome, chromosomes = "28")
+kpAddBaseNumbers(kp)
+kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker)
+
+```
+
+and the Greb/Rock1 region
+```{r, warning=FALSE, message=FALSE}
+pp <- getDefaultPlotParams(plot.type=2)
+pp$bottommargin <- 1
+pp$data1height <- 400 
+kp <- plotKaryotype(plot.type =2, genome = Omy.genome, zoom=greb1_region, plot.params = pp)
+kpPlotGenes(kp, data = db28, r0=0, r1=0.2, add.gene.names = TRUE, add.transcript.names = FALSE, add.strand.marks = FALSE, data.panel = 2, plot.transcripts = FALSE, gene.name.position = "bottom", gene.col = "#FDE725FF", clipping = FALSE)
+kpAddBaseNumbers(kp, tick.dist = 100000)
+kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker, data.panel = 1, marker.parts = c(0.1,0.1,0.1), clipping = FALSE, ymax=3)
+
+```
+
+friday to-do
+create master spreadsheet
+synthesize results with previous mapping efforts and SFGL GTseq marker panel spreadsheet
+any differences in mapping
+what about that weird accessory scaffold
+why did they fail QC in the rogue run

@@ -1,0 +1,392 @@
+CRITFC Last Action	Assay	Panel Origin	Presumed Type	Source	CRITFC Comment	Tasha Comments	UWR	Rogue
+Active Panel	OmyY1_2SEXY	PBT	Sex Marker	Brunelli et al. 2008	none	none	Yes	Yes
+Active Panel	Omy_ndk-152	GSI	Neutral	Campbell unpublished	Omy_ndk-152 and Omy_u09-52.284 are linked loci	none	Failed QC	Failed QC
+Active Panel	Omy_cd59b-112	GSI	Neutral	DeKoning unpublished. WSU	none	none	Failed QC	Failed QC
+Active Panel	OMS00129	GSI	Neutral	Sánchez et al. 2009	none	none	Fixed	Failed QC
+Active Panel	Omy_hsp70aPro-329	GSI	Neutral	Campbell and Narum 2009	none	none	Yes	Failed QC
+Active Panel	OMS00003	GSI	Neutral	Sánchez et al. 2009	Has a 4th cluster. Not sure of the source	none	Yes	Failed QC
+Active Panel	Omy_Ogo4-212	PBT	Neutral	Campbell unpublished	none	none	Yes	Failed QC
+Active Panel	Omy_gluR-79	PBT	Neutral	Campbell unpublished	none	none	Yes	Failed QC
+Active Panel	Omy_101554-306	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Failed QC
+Active Panel	OMS00169	GSI	Neutral. Possible linkage	Sánchez et al. 2009	Omy_SECC22b-88 and OMS00169 are linked loci	none	Yes	Failed QC
+Active Panel	OMS00127	WDFW	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00008	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	Omy_hsc715-80	PBT	Neutral	Campbell and Narum 2009	none	none	Yes	Yes
+Active Panel	Omy_hsf1b-241	GSI	Neutral	Campbell and Narum 2009	none	none	Yes	Yes
+Active Panel	Omy28_11671116	Omy390	Adaptive. Run Timing	Micheletti et al 2018 Mol Ecol	none	good candidate	Yes	Failed QC
+Active Panel	OMS00074	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	OMS00017	GSI	Neutral	Sánchez et al. 2009	none	none	Failed QC	Failed QC
+Active Panel	Omy_u09-56.119	GSI	Neutral	Limborg et al. 2012	none	none	Yes	Yes
+Active Panel	Omy_cox1-221	PBT	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00077	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	OMGH1PROM1-SNP1	GSI	Neutral	Abadía-Cardoso et al. 2011	4th cluster in interior population. Interior populations will probably fail H-W tests with lack of Hets.	none	Yes	Yes
+Active Panel	Omy_crb-106	PBT	Neutral	Sprowles et al. 2006	5 clusters in coastal	none	Failed QC	Yes
+Active Panel	Omy_114587-480	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Failed QC
+Active Panel	Omy_cox2-335	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	OMS00068	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_SECC22b-88	GSI	Neutral. Possible linkage	Campbell unpublished	Omy_SECC22b-88 and OMS00169 are linked loci	none	Yes	Failed QC
+Active Panel	Omy_RAD62596-38	Omy269	Neutral	CRITFC unpublished	Frequent concordancy issues between het and BB alleles	none	Yes	Yes
+Active Panel	Omy_impa1-55	GSI	Neutral	Narum et al. 2010	none	none	Failed QC	Failed QC
+Active Panel	Omy_97660-230	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_BAC-B4-324	PBT	Neutral	Young unpublished	none	none	Yes	Yes
+Active Panel	Omy_carban1-264	GSI	Neutral	Narum et al. 2010	none	none	Fixed	Yes
+Active Panel	Omy_RAD52458-17	 	Adaptive. Run Timing	Hess et al 2016, ProcB	none	missing data	Yes	Yes
+Active Panel	Omy_109894-185	PBT	Neutral	Abadía-Cardoso et al. 2011	Minor 4th and 5th cluster. Unknown Source	none	Failed QC	Yes
+Active Panel	OMS00095	GSI	Neutral	Sánchez et al. 2009	5 Clusters. Not sure about the proper Correction factor. This should have been dropped altogether	none	Fixed	Failed QC
+Active Panel	Omy_113490-159	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_U11_2b-154	PBT	Neutral	Young unpublished	none	none	Yes	Yes
+Active Panel	OMS00056	GSI	Neutral	Sánchez et al. 2009	none	none	Failed QC	Failed QC
+Active Panel	Omy_104569-114	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Failed QC	Failed QC
+Active Panel	Omy_112820-82	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Failed QC
+Active Panel	Omy_mapK3-103	GSI	Neutral. Possible linkage	CRITFC unpublished	Read hog due to low ON-target Primer. May be better suited to not spike the concentration. Omy_GHSR-121, OMS00176 and Omy_mapK3-103 are linked loci.	none	Yes	Yes
+Active Panel	OMS00064	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	OMS00151	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_p53-262	PBT	Neutral	Campbell unpublished	none	none	Yes	Yes
+Active Panel	Omy_1004	WDFW	Neutral	Hansen et al. 2011	none	none	Yes	Failed QC
+Active Panel	Omy_nxt2-273	GSI	Neutral	Campbell et al. 2009	none	none	Failed QC	Yes
+Active Panel	OMS00089	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD58213-70	Omy269	Neutral	CRITFC unpublished	none	none	Yes	Yes
+Active Panel	Omy_109243-222	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_myoD-178	GSI	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_u09-61.043	WDFW	Neutral	Young unpublished	none	none	Fixed	Yes
+Active Panel	Omy28_11683204	Omy390	Adaptive. Run Timing	Micheletti et al 2018 Mol Ecol	none	missing data	Yes	Failed QC
+Active Panel	Omy_RAD27740-55	 	Adaptive. Mean wind velocity. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_metA-161	PBT	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_117540-259	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy28_11667578	Omy390	Adaptive. Run Timing	Micheletti et al 2018 Mol Ecol	none	good candidate	Yes	Failed QC
+Active Panel	Omy_97954-618	GSI	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Failed QC
+Active Panel	Omy_GH1P1_2	WDFW	Neutral	Aguilar and Garza 2008	none	none	Yes	Yes
+Active Panel	OMS00002	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	OMS00180	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	Omy_oxct-85	PBT	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_ca050-64	GSI	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_g1-103	GSI	Neutral	Stephens et al. 2009	none	none	Fixed	Yes
+Active Panel	Omy_109525-403	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy28_11676622	Omy390	Adaptive. Run Timing	Micheletti et al 2018 Mol Ecol	none	good candidate	Yes	Failed QC
+Active Panel	OMS00174	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD32139-58	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	 4th cluster seen in Bonn samples	none	Fixed	Yes
+Active Panel	Omy_97865-196	GSI	Neutral	Abadía-Cardoso et al. 2011	none	none	Failed QC	Failed QC
+Active Panel	Omy_BAC-F5.284	GSI	Neutral	Limborg et al. 2012	none	none	Yes	Yes
+Active Panel	Omy_nips-299	GSI	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD47080-54	 	Adaptive. Run Timing	Hess et al 2016, ProcB	none	good candidate	Yes	Yes
+Active Panel	Omy_tlr5-205	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_cyp17-153	WDFW	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_101993-189	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_107806-34	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Failed QC
+Active Panel	OMS00078	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_vamp5-303	GSI	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_b1-266	PBT	Neutral	Sprowles et al. 2006	Read hog due to low ON-target Primer. May be better suited to not spike the concentration	none	Yes	Yes
+Active Panel	Omy_RAD19578-59	 	Adaptive. Natal Site precipitation (driest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	This was corrected again after L1170	none	Yes	Failed QC
+Active Panel	Omy_hus1-52	GSI	Neutral	Narum et al. 2010	none	none	Yes	Failed QC
+Active Panel	Omy_hsf2-146	PBT	Neutral	Campbell and Narum 2009	none	none	Yes	Yes
+Active Panel	Omy_118205-116	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Failed QC	Failed QC
+Active Panel	Omy_111084-526	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00133	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_128923-433	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_Ots249-227	PBT	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00153	WDFW	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_sast-264	GSI	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy28_11607954	Omy390	Adaptive. Run Timing	Micheletti et al. 2018, BMC Evol Bio	none	not diagnostic	Yes	Failed QC
+Active Panel	Omy_RAD42465-32	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD7210-8	Omy269	Neutral	CRITFC unpublished	none	none	Yes	Yes
+Active Panel	OMS00120	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00175	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_MYC_2	WDFW	Neutral	Aguilar and Garza 2009	none	none	Yes	Yes
+Active Panel	Omy_rapd-167	PBT	Neutral	Sprowles et al. 2006	none	none	Yes	Yes
+Active Panel	M09AAJ.163	PBT	Neutral	Young unpublished	none	none	Yes	Failed QC
+Active Panel	Omy_110064-419	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00173	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	OMS00101	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_107031-704	GSI	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00164	WDFW	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	Omy_GHSR-121	GSI	Neutral. Possible linkage	Campbell unpublished	Omy_GHSR-121, OMS00176 and Omy_mapK3-103 are linked loci	none	Yes	Yes
+Active Panel	Omy_IL6-320	PBT	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	OMS00018	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	Omy_b9-164	GSI	Neutral	Sprowles et al. 2006	none	none	Yes	Yes
+Active Panel	Omy_srp09-37	PBT	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_RAD739-59	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_IL1b-163	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_131460-646	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_110201-359	GSI	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_vatf-406	PBT	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_RAD77789-54	Omy269	Adaptive	Hess et al 2016, ProcB	none	none	Yes	Yes
+Active Panel	Omy_NaKATPa3-50	PBT	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_pad-196	GSI	Neutral	Campbell unpublished	none	none	Fixed	Fixed
+Active Panel	M09AAD.076	PBT	Neutral	Young unpublished	none	none	Yes	Yes
+Active Panel	OMS00116	WDFW	Neutral	Sánchez et al. 2009	none	none	Fixed	Yes
+Active Panel	Omy_RAD15709-53	MGILCS	Adaptive. Natal site Isothermality. Basin-wide, run-time - related	Gen Assess BPA report 2017	none	none	Yes	Yes
+Active Panel	Omy_104519-624	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_gdh-271	GSI	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD46452-51	 	Adaptive. Mean annual precipitation. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_105714-265	PBT	Neutral	Abadía-Cardoso et al. 2011	Minor 4th cluster in Bonn	none	Yes	Yes
+Active Panel	Omy_metB-138	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_gh-475	GSI	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_redd1-410	PBT	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_RAD19340-24	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Fixed	Yes
+Active Panel	Omy_RAD85131-35	 	Adaptive. Mean wind velocity. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Failed QC
+Active Panel	Omy_RAD37816-68	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD12439-64	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD46672-27	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Failed QC	Failed QC
+Active Panel	Omy_111666-301	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_105105-448	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_RAD30392-17	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, temperature-related; 	Micheletti et al 2018 Mol Ecol	none	none	Yes	Failed QC
+Active Panel	OMS00096	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD76060-20	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Fixed	Fixed
+Active Panel	OMS00119	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_120255-332	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_hsp90BA-193	WDFW	Neutral	Campbell and Narum 2009	none	none	Yes	Yes
+Active Panel	Omy_UT16_2-173	GSI	Neutral	Young unpublished	none	none	Yes	Yes
+Active Panel	Omy_114976-223	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00052	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_UBA3b	WDFW	Neutral	Hansen et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_RAD35417-9	Omy269	Adaptive. 	Hess et al 2016, ProcB	none	none	Yes	Yes
+Active Panel	Omy28_11632591	Omy390	Adaptive. Run Timing	Micheletti et al. 2018, BMC Evol Bio	none	not diagnostic	Yes	Failed QC
+Active Panel	Omy_RAD13499-13	 	Adaptive. Natal Site Diurnal Range. Basin-wide, precipitation-related; 	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD26691-36	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_ada10-71	PBT	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_LDHB-2_i6	GSI	Neutral	Aguilar and Garza 2008	none	none	Yes	Yes
+Active Panel	Omy_RAD93580-37	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_102867-443	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Failed QC
+Active Panel	Omy_107336-170	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00024	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD20917-11	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD17632-23	Omy269	Neutral	CRITFC unpublished	none	none	Yes	Yes
+Active Panel	Omy_129870-756	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_117286-374	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_107285-69	GSI	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00048	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_110689-148	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_lpl-220	GSI	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_128996-481	GSI	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_ppie-232	GSI	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	OMS00087	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD39156-33	 	Adaptive. Natal site air temperature (warmest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_u07-79-166	GSI	Neutral	Limborg et al. 2012	none	none	Yes	Yes
+Active Panel	OMY1011SNP	PBT	Neutral	Hansen et al. 2011	none	none	Failed QC	Failed QC
+Active Panel	OMS00128	WDFW	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00072	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_g12-82	PBT	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_RAD41594-34	MGILCS	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, temperature-related	Gen Assess BPA report 2017	Minor 4th cluser in Bonn	none	Failed QC	Failed QC
+Active Panel	Omy_RAD40132-55	 	Adaptive. Natal site canopy cover. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_e1-147	GSI	Neutral	Sprowles et al. 2006	none	none	Yes	Yes
+Active Panel	Omy_RAD49111-35	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD1186-59	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_GREB1_09	 	Adaptive. Run Timing	Micheletti et al unpublished	none	not diagnostic	Yes	Yes
+Active Panel	Omy_RAD30619-61	 	Adaptive-Thermal Adaptation	Chen et al. 2018, MEC. Micheletti et al. 2018, MEC	none	none	Yes	Yes
+Active Panel	Omy_aspAT-123	GSI	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD47955-51	Omy269	Adaptive	Hess et al 2016, ProcB	none	none	Yes	Yes
+Active Panel	Omy_RAD12566-14	 	Adaptive. Maximum Water Temperature. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_aromat-280	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_ntl-27	PBT	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_txnip-343	PBT	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	OMS00132	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD31408-67	 	Adaptive. Basin-wide, top-outlier;  Stacks Locus ID is 31408_14	Micheletti unpublished	none	none	Yes	Yes
+Active Panel	Omy_IL17-185	PBT	Neutral	DeKoning unpublished. WSU	5 clusters in Clackamas	none	Yes	Yes
+Active Panel	Omy_117815-81	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00079	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00149	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD68634-40	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, temperature-related; 	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_98683-165	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_RAD50632-21	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Minor 4th cluser in Bonn	none	Yes	Yes
+Active Panel	Omy_96222-125	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_114315-438	PBT	Neutral	Abadía-Cardoso et al. 2011	4th cluster in interior populations	none	Yes	Yes
+Active Panel	Omy_102505-102	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_110362-585	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_LDHB-2_e5	GSI	Neutral	Aguilar and Garza 2008	none	none	Yes	Yes
+Active Panel	Omy_zg57-91	GSI	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	OMS00062	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_97077-73	GSI	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00105	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_stat3-273	PBT	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy28_11773194	Omy390	Adaptive. Run Timing	Narum 2019 unpublished	none	missing data	Yes	Failed QC
+Active Panel	Omy_187760-385	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Fixed	Yes
+Active Panel	OMS00156	WDFW	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00111	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_anp-17	PBT	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_RAD29700-18	Omy269	Neutral	CRITFC unpublished	none	none	Yes	Yes
+Active Panel	Omy_105075-162	GSI	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00134	WDFW	Neutral	Sánchez et al. 2009	none	none	Fixed	Yes
+Active Panel	Omy_RAD73963-73	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_mcsf-268	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_LDHB-1_i2	GSI	Neutral	Aguilar and Garza 2008	Minor 4th cluster in Bonn	none	Failed QC	Yes
+Active Panel	Omy_Omyclmk438-96	GSI	Species. Cutthroat	Sprowles et al. 2006	none	none	Failed QC	Failed QC
+Active Panel	OMS00041	WDFW	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_108007-193	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy28_11658853	Omy390	Adaptive. Run Timing	Micheletti et al 2018 Mol Ecol	none	not diagnostic	Yes	Failed QC
+Active Panel	Omy_u09-53.469	PBT	Neutral	Limborg et al. 2012	none	none	Yes	Yes
+Active Panel	Omy_111383-51	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_RAD47444-53	Omy269	Neutral	CRITFC unpublished	none	none	Yes	Yes
+Active Panel	Omy_RAD14033-46	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD76570-62	 	Adaptive. Minimum annual precipitation. Basin-wide, precipitation-related; 	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD25042-68	MGILCS	Adaptive. Maximum annual air temperature. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD58835-15	Omy269	Neutral	CRITFC unpublished	Weak reaction in L1170	none	Yes	Yes
+Active Panel	Omy_RAD23894-58	 	Adaptive-Thermal Adaptation	Chen et al. 2018, MEC. Micheletti et al. 2018, MEC	none	none	Yes	Failed QC
+Active Panel	Omy_RAD366-7	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	This was corrected again after L1170	none	Yes	Yes
+Active Panel	OMS00106	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_u09-54-311	PBT	Neutral	Young unpublished	none	none	Yes	Yes
+Active Panel	OMS00121	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_117370-400	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_RAD26080-69	Omy269	Neutral	CRITFC unpublished	none	none	Yes	Yes
+Active Panel	OMS00092	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00013	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_nach-200	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_RAD43694-41	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Failed QC	Failed QC
+Active Panel	Omy_RAD43573-37	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	OMS00015	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_cin-172	GSI	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	OMS00030	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00014	GSI	Neutral	Sánchez et al. 2009	none	none	Fixed	Yes
+Active Panel	Omy_RAD3926-22	 	Adaptive. Migration Distance to Ocean. Basin-wide, precipitation-related; 	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	OMS00176	GSI	Neutral. Possible linkage	Sánchez et al. 2009	Omy_GHSR-121, OMS00176 and Omy_mapK3-103 are linked loci	none	Yes	Yes
+Active Panel	Omy_rbm4b-203	PBT	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	OMS00143	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy28_11625241	Omy390	Adaptive. Run Timing	Micheletti et al. 2018, BMC Evol Bio	none	missing data	Yes	Failed QC
+Active Panel	Omy_OmyP9-180	GSI	Neutral	Campbell et al. 2009	Keep as 4X Read hog	none	Yes	Yes
+Active Panel	Omy_inos-97	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Fixed
+Active Panel	Omy_RAD40520-48	 	Adaptive. Natal Site annual precipitation. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Poor GT% in Coastal Pops	none	Failed QC	Failed QC
+Active Panel	M09AAC.055	GSI	Neutral	Young unpublished	none	none	Failed QC	Failed QC
+Active Panel	OMS00070	PBT	Neutral	Sánchez et al. 2009	4th cluster in coastal populations	none	Failed QC	Yes
+Active Panel	Omy_gadd45-332	GSI	Neutral	Campbell unpublished	none	none	Fixed	Yes
+Active Panel	Omy_RAD35149-9	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_G3PD_2.246	WDFW	Neutral	Young unpublished	none	none	Yes	Yes
+Active Panel	M09AAE.082	PBT	Neutral	Young unpublished	none	none	Yes	Yes
+Active Panel	Omy_RAD40641-58	MGILCS	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD60135-12	 	Adaptive. Migration Distance to Ocean. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_118175-396	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Fixed	Yes
+Active Panel	Omy_nkef-241	PBT	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_105385-406	PBT	Neutral	Abadía-Cardoso et al. 2011	Minor 4th cluster in Bonn	none	Yes	Yes
+Active Panel	Omy_118654-91	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00090	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_Il-1b_.028	PBT	Neutral	Young unpublished	none	none	Yes	Yes
+Active Panel	Omy_RAD2976-26	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	OMS00179	PBT	Neutral	Sánchez et al. 2009	4th cluster in Yakima.Partially scored	none	Yes	Yes
+Active Panel	Omy_ftzf1-217	WDFW	Neutral	DeKoning unpublished. WSU	none	none	Fixed	Fixed
+Active Panel	OMS00053	PBT	Neutral	Sánchez et al. 2009	Minor 4th cluster in Bonn	none	Yes	Yes
+Active Panel	Omy_cd59-206	PBT	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_RAD33122-47	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	OMS00112	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00061	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00103	WDFW	Neutral	Sánchez et al. 2009	none	none	Yes	Failed QC
+Active Panel	Omy_RAD55404-54	 	Adaptive. Minimum annual precipitation. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD4848-14	 	Adaptive. Air and water temperature. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD92485-64	 	Adaptive. Range of water temperature . Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD7016-31	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	OMS00071	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00114	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_101832-195	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_RAD57916-29	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	OMS00118	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_tlr3-377	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_sys1-188	GSI	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_103705-558	GSI	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_RAD88122-32	Omy269	Neutral	CRITFC unpublished	Minor 4th Cluster in Bonn	none	Yes	Yes
+Active Panel	Omy_RAD42793-59	Omy269	Adaptive	Hess et al 2016, ProcB	none	none	Yes	Yes
+Active Panel	Omy_RAD48799-69	Omy269	Neutral	CRITFC unpublished	Minor 4th Cluster in Bonn	none	Yes	Yes
+Active Panel	Omy_RAD78502-57	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_BAMBI2.312	GSI	Neutral	Young unpublished	I don't trust the correction of 0 and 1.7. It make the plot look better but I'm not convinced it is correct. This locus probably needs further review and possibly should have been run at 1x instead of 2 x. 	none	Yes	Yes
+Active Panel	Omy_RAD35005-13	 	Adaptive. Number of Damns passed. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Failed QC	Failed QC
+Active Panel	Ocl_gshpx-357	GSI	Species. Cutthroat	Campbell et al. 2009	none	none	Fixed	Fixed
+Active Panel	OMS00006	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_G3PD_2-371	GSI	Neutral	CRITFC unpublished	SPIKE to 1X-Optional	none	Yes	Yes
+Active Panel	Omy_RAD3209-10	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_130524-160	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	OMS00058	PBT	Neutral	Sánchez et al. 2009	Two Het clusters but both are appear to fit in the scoreable range	none	Yes	Yes
+Active Panel	Omy_RAD78147-27	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	5 clusters in Interior. This probably should have been dropped	none	Yes	Yes
+Active Panel	Omy_116938-264	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_112301-202	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_myclarp404-111	GSI	Species. Cutthroat	Campbell unpublished	none	none	Fixed	Fixed
+Active Panel	Omy_BAMBI4.238	WDFW	Neutral	Young unpublished	none	none	Fixed	Fixed
+Active Panel	OMS00039	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD46314-35	 	Adaptive-Thermal Adaptation	Chen et al. 2018, MEC. Micheletti et al. 2018, MEC	none	none	Yes	Yes
+Active Panel	Omy_RAD73204-63	Omy269	Adaptive	Hess et al 2016, ProcB	none	none	Yes	Yes
+Active Panel	Omy_RAD5374-56	 	Adaptive. Minimum annual precipitation. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD88028-7	Omy269	Adaptive	Hess et al 2016, ProcB	none	none	Yes	Yes
+Active Panel	Omy_RAD66402-36	 	Adaptive. Natal Site annual precipitation. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Spike to 1X Optional. This was corrected again after L1170	none	Yes	Yes
+Active Panel	Omy_RAD18903-48	 	Adaptive-Thermal Adaptation	Chen et al. 2018, MEC. Micheletti et al. 2018, MEC	none	none	Fixed	Fixed
+Active Panel	Omy_RAD66834-17	Omy269	Adaptive	Hess et al 2016, ProcB	none	none	Yes	Yes
+Active Panel	Omy_116733-349	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_star-206	GSI	Neutral	DeKoning unpublished. WSU	none	none	Yes	Yes
+Active Panel	Omy_RAD7384-50	 	Adaptive-Thermal Adaptation	Chen et al. 2018, MEC. Micheletti et al. 2018, MEC	none	none	Fixed	Fixed
+Active Panel	Omy_RAD78776-10	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, temperature-related; 	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_hsp47-86	GSI	Neutral	Campbell and Narum 2009	none	none	Yes	Yes
+Active Panel	Omy_99300-202	PBT	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_RAD24287-74	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD13034-67	 	Adaptive-Thermal Adaptation	Chen et al. 2018, MEC. Micheletti et al. 2018, MEC	none	none	Yes	Yes
+Active Panel	Omy_RAD45104-18	Omy269	Neutral	CRITFC unpublished	none	none	Yes	Yes
+Active Panel	Omy_sSOD-1	GSI	Neutral	Brunelli et al. 2008	none	none	Yes	Yes
+Active Panel	Omy_RAD59758-41	 	Adaptive. Minimum annual precipitation. Basin-wide, precipitation-related; 	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD36952-53	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, temperature-related; 	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD65959-69	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD38406-19	MGILCS	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, temperature-related	Gen Assess BPA report 2017	none	none	Yes	Yes
+Active Panel	Omy_RAD2567-8	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD23577-43	Omy269	Adaptive	Hess et al 2016, ProcB	none	none	Yes	Yes
+Active Panel	Omy_RAD36848-7	Omy269	Neutral	CRITFC unpublished	This was corrected again after L1170	none	Failed QC	Yes
+Active Panel	Omy_RAD116-59	 	Adaptive. Maximum air temperature (driest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Fixed	Fixed
+Active Panel	Omy_arp-630	PBT	Neutral	Campbell et al. 2009	none	none	Yes	Yes
+Active Panel	OMS00057	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD9004-13	 	Adaptive. Mean air temperature (driest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Poor GT% in Interior Pops	none	Yes	Yes
+Active Panel	Omy_GREB1_05	 	Adaptive. Run timing	Micheletti et al unpublished	none	not diagnostic	Yes	Yes
+Active Panel	Omy_RAD10733-10	 	Adaptive. Air and water temperature. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_128693-455	WDFW	Neutral	Abadía-Cardoso et al. 2011	none	none	Yes	Yes
+Active Panel	Omy_RAD55997-10	 	Adaptive. Range of heat load index. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	OMS00138	GSI	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD52812-28	Omy269	Neutral	CRITFC unpublished	none	none	Yes	Yes
+Active Panel	Omy_RAD86706-72	MGILCS	Adaptive. Mean slope. Basin-wide, elevation-related	Gen Assess BPA report 2017	none	none	Yes	Yes
+Active Panel	Omy_bcAKala-380rd	PBT	Neutral	Narum et al. 2010	none	none	Yes	Yes
+Active Panel	Omy_RAD72528-44	 	Adaptive. Range of annual air temperature. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_cd28-130	GSI	Neutral	DeKoning unpublished. WSU	Poor GT% in Coastal Pops. Corrected again after L1170	none	Yes	Yes
+Active Panel	OMS00154	PBT	Neutral	Sánchez et al. 2009	none	none	Yes	Yes
+Active Panel	Omy_RAD103359-45	 	Adaptive. Maximum Water Temperature. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Poor GT% in Coastal Pops	none	Yes	Failed QC
+Active Panel	Omy_RAD59950-44	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD3651-48	 	Adaptive. Natal Site Diurnal Range. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD43612-42	Omy269	Neutral	CRITFC unpublished	none	none	Yes	Yes
+Active Panel	Omy_RAD65808-68	 	Adaptive. Mean precipitation (driest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD79314-58	 	Adaptive-Thermal Adaptation	Chen et al. 2018, MEC. Micheletti et al. 2018, MEC	none	none	Yes	Fixed
+Active Panel	Omy_RAD28236-38	MGILCS	Adaptive. Migration Distance to Ocean. Basin-wide, migration-related	Gen Assess BPA report 2017	none	none	Yes	Yes
+Active Panel	Omy_RAD16104-20	Omy269	Adaptive	Hess et al 2016, ProcB	none	none	Yes	Yes
+Active Panel	Omy_RAD1919-22	 	Adaptive. Maximum Water Temperature. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Fixed
+Active Panel	Omy_RAD17849-16	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD33798-24	 	Adaptive. Minimum annual precipitation. Basin-wide, temperature-related; 	Micheletti et al 2018 Mol Ecol	This was corrected again after L1170	none	Yes	Yes
+Active Panel	Omy_RAD22123-69	 	Adaptive. Migration Distance to Ocean. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD13073-16	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Failed QC
+Active Panel	Omy_RAD619-59	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	none	none	Yes	Yes
+Active Panel	Omy_RAD98715-53	 	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Tricky Correction Factor. I settled on 1.7. May still cause problems for interior. Corrected again after L1170	none	Yes	Yes
+Active Panel	OmyR14589	Omy368 in 2019	Adaptive. Residency vs anadromy	Kathleen O Malley from Devon Pearse	none	none	Yes	Yes
+Active Panel	OmyR19198	Omy368 in 2019	Adaptive. Residency vs anadromy	Kathleen O Malley from Devon Pearse	none	none	Yes	Yes
+Active Panel	OmyR24370	Omy368 in 2019	Adaptive. Residency vs anadromy	Kathleen O Malley from Devon Pearse	none	none	Yes	Yes
+Active Panel	OmyR33562	Omy368 in 2019	Adaptive. Residency vs anadromy	Kathleen O Malley from Devon Pearse	none	none	Yes	Yes
+Active Panel	OmyR40252	Omy368 in 2019	Adaptive. Residency vs anadromy	Kathleen O Malley from Devon Pearse	Spike to 2X	none	Yes	Failed QC
+Active Panel	OmyR40319	Omy368 in 2019	Adaptive. Residency vs anadromy	Kathleen O Malley from Devon Pearse	none	none	Yes	Failed QC
+Dropped March 2019 after Omy374 review	Omy_RAD24343-29	MGILCS	Adaptive. Mean air temperature (wettest quarter). Basin-wide, temperature-related	Gen Assess BPA report 2017	Read Hog	none	Yes	Yes
+Dropped March 2019 after Omy374 review	Omy_RAD25907-57	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Read Hog	none	Yes	Yes
+Dropped March 2019 after Omy374 review	Omy_Il1b-198	PBT	Neutral	Young unpublished	Read Hog	none	Yes	Yes
+Dropped March 2019 after Omy374 review	Omy_RAD31079-58	none	Adaptive. Maximum annual air temperature. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Read Hog	none	Failed QC	Yes
+Dropped March 2019 after Omy374 review	Omy_RAD2277-7	none	Adaptive. Mean annual precipitation. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Low GT%	none	Yes	Failed QC
+Dropped March 2019 after Omy365plus review	Omy_gsdf-291	WDFW	Neutral	DeKoning unpublished. WSU	Poor Reaction. Locus is not super informative	none	Yes	Failed QC
+Dropped March 2019 after Omy365plus review	Omy_RAD74691-49	Omy269	Neutral	CRITFC unpublished	Read hog with ugly plot	none	Failed QC	Failed QC
+Dropped February 2019 after Omy390 review	Omy_CRBF1-1	GSI	Neutral	Aguilar and Garza 2008	Drop	none	Failed QC	Failed QC
+Dropped February 2019 after Omy390 review	Omy_u09-52.284	GSI	Neutral	Limborg et al. 2012	Drop. Read hog with poor GT%. Will keep cross-amplifying ndk-152	none	Yes	Failed QC
+Dropped February 2019 after Omy390 review	Omy_aldB-165	PBT	Neutral	Campbell et al. 2009	Drop	none	Yes	Yes
+Dropped February 2019 after Omy390 review	Omy_colla1-525	PBT	Neutral	DeKoning unpublished. WSU	Five clusters that are sometimes undifferenticated.	none	Yes	Yes
+Dropped February 2019 after Omy390 review	Omy_RAD38269-10	Omy269	Neutral	CRITFC unpublished	Read hog with poor genotyping success and poor quality plots. Will keep cross-amplifying Omy_RAD13499-13	none	Yes	Yes
+Dropped February 2019 after Omy390 review	Omy_RAD69583-33	Omy269	Neutral	CRITFC unpublished	Poor genotyping success and poor quality plots	none	Failed QC	Failed QC
+Dropped February 2019 after Omy390 review	Omy_RAD66218-58	Omy269	Adaptive	CRITFC unpublished	Minor read hog and flagged as not useful by Jons power analysis	none	Yes	Yes
+Dropped February 2019 after Omy390 review	Omy_RAD76882-63	Omy269	Adaptive	Hess et al 2016, ProcB	Flagged as not useful by Jons power analysis	none	Yes	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD10945-51	none	Adaptive. Mean isothermality. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Extra Clusters	none	Failed QC	Yes
+Dropped February 2019 after Omy390 review	Omy_RAD29559-69	none	Adaptive. Geological Breaks. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD30230-25	none	Adaptive. Maxiumum air temperature (warmest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Extra Clusters	none	Yes	Yes
+Dropped February 2019 after Omy390 review	Omy_RAD37492-53	none	Adaptive. Miniumum isothermality. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD45246-10	none	Adaptive. Realted to energy expenditure. Basin-wide, migration-related; 	Micheletti et al 2018 Mol Ecol	Very poor plots	none	Yes	Yes
+Dropped February 2019 after Omy390 review	Omy_RAD49637-74	none	Adaptive. Natal site Isothermality. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD54441-29	none	Adaptive. Natal site slope. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD1751-18	MGILCS	Adaptive. Miniumum isothermality. Basin-wide, Immune related	Gen Assess BPA report 2017	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD9408-71	MGILCS	Adaptive. Number of stream orders crossed. Basin-wide, stream order - related	Gen Assess BPA report 2017	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD14269-30	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Double het cluster with poor GT%	none	Failed QC	Yes
+Dropped February 2019 after Omy390 review	Omy_RAD14541-72	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Failed QC	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD23354-66	none	Adaptive. Maximum air temperature (driest quarter). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD25266-23	MGILCS	Adaptive. Natal site canopy cover. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD29352-6	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Large het cluster results in low GT%	none	Failed QC	Failed QC
+Dropped February 2019 after Omy390 review	Omy_RAD30243-74	MGILCS	Adaptive. General topology (elevation and slope). Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Failed QC
+Dropped February 2019 after Omy390 review	Omy_RAD49827-67	MGILCS	Adaptive. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Fixed	Fixed
+Dropped February 2019 after Omy390 review	Omy_RAD43117-55	none	Adaptive. Maximum Water Temperature. Basin-wide, top-outlier	Micheletti et al 2018 Mol Ecol	Monomorphic at all CRITFC and IDFG populations currently genotyped	none	Failed QC	Failed QC
+Dropped February 2019 after Omy390 review	Omy28_11702210	Omy390	Adaptive. Run Timing	Micheletti et al 2018 Mol Ecol	Read Hog with less than 1% On Target reads	missing data	Yes	Failed QC
