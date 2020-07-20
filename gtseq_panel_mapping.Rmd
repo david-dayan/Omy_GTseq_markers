@@ -609,7 +609,6 @@ kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker, data.panel = 1
 
 First let's get al the SFGL results into one place
 ```{r, message=FALSE, warning=FALSE}
-amps + panel2 + map_results$mapq + map_results secondary alignment  + marker summary from lab
 
 map_results$marker=gsub("*.bam","",map_results$marker)
 lab_results <- read_tsv("GTseq_panel_metadata/gtseq_panel_info_SFGL.txt")
@@ -641,7 +640,30 @@ CRITFC <- read_tsv("shared_info/CRITFC_map_results.txt")
 master2 <- master %>%
   full_join(CRITFC)
 
+#write_tsv(master2, "./final_mapping_results.txt")
+
 ```
+
+```{r, include = FALSE}
+#count how many markers were successfully aligned in both
+sum(!rowSums(is.na(master2[,c("chr", "CRITFC_chromosome")])))
+
+sum(as.numeric(master2$chr)==as.numeric(gsub("omy","",master2$CRITFC_chromosome)), na.rm = TRUE)
+
+ggplot(master2)+geom_jitter(aes(mapq, CRITFC_mapQ), alpha = 0.5)+theme_classic()+geom_smooth(aes(mapq, CRITFC_mapQ), method= "lm")
+ggplot(master2)+geom_point(aes(second_align/primary, CRITFC_secondary_maps), alpha = 0.5)+theme_classic()+geom_smooth(aes(second_align/primary, CRITFC_secondary_maps), method= "lm")
+
+diffs <- (as.numeric(master2$chr))!=(as.numeric(gsub("omy","",master2$CRITFC_chromosome)))
+disagree <- master2[diffs,]
+disagree <- disagree[rowSums(is.na(disagree)) != ncol(disagree), ]
+
+master2$chr_dis <- (as.numeric(master2$chr))!=(as.numeric(gsub("omy","",master2$CRITFC_chromosome)))
+master2$proportion_second <- master2$second_align/master2$reads
+summary(aov(data=master2, chr_dis ~ proportion_second))
+```
+
+Of the 352 markers that were successfully mapped both here and by the CRITFC lab, 335 aligned to the same locus on the reference genome. Mapping quaility was highly correlated between the two mapping analyses, markers identified as potentially multi mapping were also in good agreement. Markers with disagreements in mapping position were enriched for markers with a high number of seconday alignments. 
+
 
 
 ## Other Approaches
@@ -1440,9 +1462,16 @@ kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker, data.panel = 1
 
 ```
 
-friday to-do
-create master spreadsheet
-synthesize results with previous mapping efforts and SFGL GTseq marker panel spreadsheet
-any differences in mapping
-what about that weird accessory scaffold
-why did they fail QC in the rogue run
+
+## Comparison to CRITFC Mapping Effort
+
+We generated a master spreadsheet of our mapping results and marker meta information with that from the CRITFC (in repo "final_mapping_results.xlsx"). This is available in the associated git-hub repository. 
+
+There was generally good agreement between the results. Of the 352 markers that were successfully mapped both here and by the CRITFC lab, 335 aligned to the same locus on the reference genome. Mapping quaility was highly correlated between the two mapping analyses, and markers identified as potentially multi mapping were also in good agreement. Markers with disagreements in mapping locus were enriched for markers with a high number of secondary alignments. 
+
+## Reccomendations
+
+(1) We should re-evaluate the inclusion of markers identified as potential paralogues. Retaining potentially paralogous markers may be desired because some markers provide unique or important information and evidence of paralogy was not strong (multimapping markers did not demonstrate increased heterozygosity).  
+(2) Inference of marker amplicon sequences will accelarate mapping of markers to the new genome assembly when it is complete. Given the much improved quality of the draft release of the new assembly, we may be able to resolve the genomic position of problematic markers or confirm paralogy.  
+(3) Duplicated markers should be removed from the panel  
+(4) There are several regions with high marker density. LD should be analyzed in these regions to identify redundancy. We can increase maximum sample size by removing redundant markers. However, LD will vary between populations so identification of redundant markers should either be completed on a case by case basis or using data that captures a lot of genetic diversity.  
