@@ -40,7 +40,7 @@ __Samples__
 Samples are 42 Rogue River adult winter run steelhead collected 2019 at Cole Rivers Hatchery
 
 __Genome__  
-We use the ENSEMBL release 100 genome for mapping (GCA_002163495.1), however, we also map amplicons to a draft release of the new assembly (GCA_013265735.1).
+We use the ENSEMBL release 100 genome for mapping (GCA_002163495.1), however, we also recommend mapping amplicons to a draft release of the new assembly (GCA_013265735.1), or the final release of the new assembly once available. 
 
 # Analysis
 ## Overview
@@ -83,7 +83,7 @@ This approach maps achieves several goals:
 (3) Work only on reads that will enter the GTseq pipeline (i.e. conduct read filtering the same way as GTseq pipeline)  
 (4) If amplicons are not paralagous, generate a final consensus sequence for future mapping projects on new genome when it is published.   
 
-In approaches 1 and 2 above, generating a consensus sequence for the amplicon before mapping will obfiscate any paralogous sequences that will be pulled by the gtseq pipeline, because reads from paralagous loci will be collapsed into a single marker's estimated amplicon sequence. By aligning the full reads against the genome, we can check if any markers are multi-mapping before building and mapping consensus sequence.
+In approaches 1 and 2 below, generating a consensus sequence for the amplicon before mapping will obfiscate any paralogous sequences that will be pulled by the gtseq pipeline, because reads from paralagous loci will be collapsed into a single marker's inferred amplicon sequence. By aligning the full set of reads against the genome, we can check if any markers are multi-mapping before building consensus sequences and mapping.
 
 ```{r}
 
@@ -124,7 +124,7 @@ grViz("digraph flowchart {
 
 ### Mapping
 
-First step is to generate by-marker fastq files from al samples in the dataset
+First step is to generate by-marker fastq files from all samples in the dataset
 ```{bash, eval = FALSE}
 #first step is to concatenate some fish from a single population in to a large fastq
 # will use the Rogue adult winter fish (CORH and APPR adults at /dfs/FW_HMSC/Omalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs/)
@@ -608,7 +608,7 @@ kpPlotMarkers(kp, chr=amps$chr, x=amps$start, labels=amps$marker, data.panel = 1
 ### Synthesize Results with CRITFC
 
 First let's get al the SFGL results into one place
-```{r, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 
 map_results$marker=gsub("*.bam","",map_results$marker)
 lab_results <- read_tsv("GTseq_panel_metadata/gtseq_panel_info_SFGL.txt")
@@ -668,7 +668,7 @@ Of the 352 markers that were successfully mapped both here and by the CRITFC lab
 
 ## Other Approaches
 
-### Chinook Approach
+### Chinook Approach (approach 1)
 In previous mapping project for Chinook the following approach was taken:
 
 (1) From demultiplexed fastq files, retrieve reads with exact match to marker forward primers using grep (see code chunk below)  
