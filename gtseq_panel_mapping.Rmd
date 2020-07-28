@@ -336,7 +336,9 @@ __Marker Mapping Stats Results summary: __
 ### HWE
 Do poorly mapping markers also demonstrate an excess of heterozygotes?
 
-Using a previous GTseq genotyping run (Rogue River baseline 2019) we compare observed vs expected heterozygosity. This dataset only genotyped 330 markers (others removed during filtering), so some markers must be analyzed later.
+Big caveat here: allele correction values may have been used to skew results away from excess homozygotes at paralogs, so not exactly a robust way to identify them...
+
+Using a previous GTseq genotyping run (Rogue River baseline 2019) we compare observed vs expected heterozygosity. This dataset only genotyped 330 markers (others removed during filtering), so some markers must be analyzed later. 
 
 ```{r, message=FALSE, warning=FALSE}
 load("2019_Rogue_gtseq_baseline/genind.R")
@@ -644,7 +646,7 @@ master2 <- master %>%
 
 ```
 
-```{r, include = FALSE}
+```{r}
 #count how many markers were successfully aligned in both
 sum(!rowSums(is.na(master2[,c("chr", "CRITFC_chromosome")])))
 
@@ -1422,7 +1424,7 @@ Also of note here is that the GTseq pipeline does not use alignment match reads 
 We mapped reads from 42 Rogue River steelhead after applying the same filtering approach to identify on target reads as the GTseq v3 pipeline. Using these alignments we examined read mapping statistics to identify potentially paralogous markers, identify duplicate markers, examine marker density along the genome and generate a consensus sequence for marker amplicons. 
 
 ## Evidence of Paralogous Markers 
-We found that the GTseq pipeline will call genotypes from reads that may be derived from independent, paralogous genomic regions. Of the 390 markers in the panel, 30 demonstrated evidence of multimapping either due to (a) 50% or more of reads assigned as "on-target" strongly aligning to multiple genomic loci (28 markers) or (b) mapQ score of less than 3 (50% probability of incorrect alignment) (16 markers). See figure below. However, these markers do not demonstrate an excess of heterozygosity as might be expected for paralogues.
+We found that the GTseq pipeline will call genotypes from reads that may be derived from independent, paralogous genomic regions. Of the 390 markers in the panel, 30 demonstrated evidence of multimapping either due to (a) 50% or more of reads assigned as "on-target" strongly aligning to multiple genomic loci (28 markers) or (b) mapQ score of less than 3 (50% probability of incorrect alignment) (16 markers). See figure below. However, these markers do not demonstrate an excess of heterozygosity as might be expected for paralogues. However, this may be due to the use of allele correction values in the GTseq pipeline to call these GTs.
 
 ```{r, warning=FALSE, message=FALSE}
 plot_grid(e,f,ncol=2)
@@ -1471,7 +1473,7 @@ There was generally good agreement between the results. Of the 352 markers that 
 
 ## Reccomendations
 
-(1) We should re-evaluate the inclusion of markers identified as potential paralogues. Retaining potentially paralogous markers may be desired because some markers provide unique or important information and evidence of paralogy was not strong (multimapping markers did not demonstrate increased heterozygosity).  
+(1) We should re-evaluate the inclusion of markers identified as potential paralogues. Retaining potentially paralogous markers may be desired because some markers provide unique or important information and evidence of paralogy was not strong (multimapping markers did not demonstrate increased heterozygosity, but this may be due to allele correction values).  
 (2) Inference of marker amplicon sequences will accelarate mapping of markers to the new genome assembly when it is complete. Given the much improved quality of the draft release of the new assembly, we may be able to resolve the genomic position of problematic markers or confirm paralogy.  
 (3) Duplicated markers should be removed from the panel  
 (4) There are several regions with high marker density. LD should be analyzed in these regions to identify redundancy. We can increase maximum sample size by removing redundant markers. However, LD will vary between populations so identification of redundant markers should either be completed on a case by case basis or using data that captures a lot of genetic diversity.  
